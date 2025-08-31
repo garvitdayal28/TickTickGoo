@@ -1,0 +1,35 @@
+# Environment Variables
+.env
+.env.local
+.env.production
+
+# Firebase Service Account (NEVER commit this!)
+serviceAccount.json
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Flask Instance
+instance/
+
+# Database files (if using SQLite)
+*.db
+*.sqlite
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
