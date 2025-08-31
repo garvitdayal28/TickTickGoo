@@ -24,7 +24,11 @@ def create_app():
     # --- Initialize Extensions ---
     # Configure CORS with frontend origin
     frontend_origin = os.environ.get('FRONTEND_ORIGIN', 'http://localhost:5173')
-    cors.init_app(app, supports_credentials=True, origins=[frontend_origin])
+    cors.init_app(app, 
+                  supports_credentials=True, 
+                  origins=[frontend_origin, "https://*.vercel.app", "http://localhost:5173"],
+                  methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+                  allow_headers=['Content-Type', 'Authorization'])
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
