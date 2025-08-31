@@ -1,16 +1,21 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from firebase_admin import firestore
-from server import db
 
 # Create the Blueprint
 tasks_bp = Blueprint('tasks', __name__)
+
+# We'll get db reference in each function to avoid circular import
+def get_db():
+    from server import db
+    return db
 
 @tasks_bp.route("/tasks", methods=["GET"])
 @login_required
 def get_tasks():
     """Get all tasks for the current user"""
     try:
+        db = get_db()
         tasks_ref = db.collection('users').document(current_user.id).collection('tasks')
         tasks = []
         for doc in tasks_ref.stream():
@@ -26,6 +31,7 @@ def get_tasks():
 def create_task():
     """Create a new task for the current user"""
     try:
+        db = get_db()
         data = request.get_json()
         title = data.get('title')
         
@@ -50,6 +56,7 @@ def create_task():
 def update_task(task_id):
     """Update a task for the current user"""
     try:
+        db = get_db()
         data = request.get_json()
         status = data.get('status')
         
@@ -87,6 +94,7 @@ def update_task(task_id):
 def delete_task(task_id):
     """Delete a task for the current user"""
     try:
+        db = get_db()
         task_ref = db.collection('users').document(current_user.id).collection('tasks').document(task_id)
         
         # Check if task exists

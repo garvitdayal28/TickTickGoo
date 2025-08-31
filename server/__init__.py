@@ -20,6 +20,14 @@ def create_app():
 
     # --- App Configuration ---
     app.config['SECRET_KEY'] = os.environ.get('SESSION_SECRET', 'fallback-secret-key-for-development')
+    
+    # Session configuration for cross-origin requests
+    app.config['SESSION_COOKIE_SECURE'] = True  # HTTPS only
+    app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevent XSS
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Allow cross-origin
+    app.config['REMEMBER_COOKIE_SECURE'] = True
+    app.config['REMEMBER_COOKIE_HTTPONLY'] = True
+    app.config['REMEMBER_COOKIE_SAMESITE'] = 'None'
 
     # --- Initialize Extensions ---
     # Configure CORS with frontend origin
