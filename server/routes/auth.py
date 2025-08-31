@@ -1,12 +1,14 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user, UserMixin
-from server import bcrypt, db, login_manager # Import from our __init__.py
+from server import bcrypt, login_manager # Import from our __init__.py
 
 # Create the Blueprint
 auth_bp = Blueprint('auth', __name__)
 
-# Firestore collection reference
-users_ref = db.collection('users')
+# We'll get db reference in each function to avoid circular import
+def get_db():
+    from server import db
+    return db
 
 # --- User Model & Loader for Flask-Login ---
 class User(UserMixin):
@@ -17,6 +19,8 @@ class User(UserMixin):
 
     @staticmethod
     def get(user_id):
+        db = get_db()
+        users_ref = db.collection('users')
         user_doc = users_ref.document(user_id).get()
         if user_doc.exists:
             user_data = user_doc.to_dict()
@@ -36,6 +40,9 @@ def load_user(user_id):
 # --- API Routes ---
 @auth_bp.route("/register", methods=["POST"])
 def register():
+    db = get_db()
+    users_ref = db.collection('users')
+    
     data = request.get_json()
     name = data.get('name')
     email = data.get('email')
@@ -66,6 +73,9 @@ def register():
 
 @auth_bp.route("/login", methods=["POST"])
 def login():
+    db = get_db()
+    users_ref = db.collection('users')
+    
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')

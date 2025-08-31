@@ -61,4 +61,13 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(tasks_bp, url_prefix='/api')
 
+    # Add a simple health check route
+    @app.route('/api/health')
+    def health_check():
+        return jsonify({"status": "healthy", "message": "Backend is running!"}), 200
+
+    @app.route('/')
+    def home():
+        return jsonify({"message": "Tick Tick Goo Backend API", "status": "running"}), 200
+
     return app
