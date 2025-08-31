@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import config from "../config";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +26,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch(config.getApiUrl("/api/login"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

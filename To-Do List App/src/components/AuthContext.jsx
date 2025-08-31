@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import config from "../config";
 
 const AuthContext = createContext();
 
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch("/api/profile", {
+      const response = await fetch(config.getApiUrl("/api/profile"), {
         credentials: "include",
       });
 
@@ -42,7 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch("/api/logout", {
+      await fetch(config.getApiUrl("/api/logout"), {
         method: "POST",
         credentials: "include",
       });

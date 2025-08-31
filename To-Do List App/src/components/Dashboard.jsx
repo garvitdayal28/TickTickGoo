@@ -53,7 +53,7 @@ const Dashboard = () => {
     setError("");
 
     try {
-      const response = await fetch("/api/tasks", {
+      const response = await fetch(config.getApiUrl("/api/tasks"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const Dashboard = () => {
     setUpdatingTasks((prev) => new Set(prev).add(taskId));
 
     try {
-      const response = await fetch(`/api/tasks/${taskId}`, {
+      const response = await fetch(config.getApiUrl(`/api/tasks/${taskId}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +109,7 @@ const Dashboard = () => {
 
   const deleteTask = async (taskId) => {
     try {
-      const response = await fetch(`/api/tasks/${taskId}`, {
+      const response = await fetch(config.getApiUrl(`/api/tasks/${taskId}`), {
         method: "DELETE",
         credentials: "include",
       });
