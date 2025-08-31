@@ -1,1 +1,181 @@
 @import "tailwindcss";
+
+/* Android viewport height handling */
+:root {
+  --vh: 1vh;
+  --viewport-height: 100vh;
+}
+
+.keyboard-adjust {
+  height: var(--viewport-height, 100vh);
+  height: var(--vh, 1vh) * 100;
+}
+
+/* Android-specific responsive improvements */
+@media (max-width: 640px) {
+  /* Prevent zoom on input focus - critical for Android */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px !important;
+    transform: translateZ(0); /* Hardware acceleration */
+  }
+
+  /* Better touch targets for Android */
+  button,
+  .touch-target {
+    min-height: 48px;
+    min-width: 48px;
+    touch-action: manipulation;
+  }
+
+  /* Smooth scrolling with momentum */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent horizontal scroll and rubber band effect */
+  body {
+    overflow-x: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
+  #root {
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Android keyboard handling */
+  .keyboard-adjust {
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height */
+  }
+}
+
+/* Enhanced touch interactions for Android */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Android-optimized scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Safe area for devices with notches and Android navigation */
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .safe-area-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .safe-area-left {
+    padding-left: max(1rem, env(safe-area-inset-left));
+  }
+
+  .safe-area-right {
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Android-specific button improvements */
+button:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Prevent text selection on Android */
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Android focus improvements */
+input:focus,
+textarea:focus,
+button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Loading states optimized for Android */
+@keyframes androidSpinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.android-spinner {
+  animation: androidSpinner 1s linear infinite;
+  will-change: transform;
+}
+
+/* Android-specific media queries */
+@media screen and (max-width: 480px) {
+  /* Extra small Android devices */
+  .text-responsive {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  /* Very small Android devices */
+  .text-responsive {
+    font-size: 13px;
+  }
+
+  .padding-responsive {
+    padding: 0.75rem;
+  }
+}
+/* Android Chrome address bar handling */
+@media screen and (max-height: 500px) {
+  .min-h-screen {
+    min-height: var(--vh, 1vh) * 100;
+  }
+}
+
+/* Android-specific touch improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* This targets touch devices like Android */
+  button:hover {
+    transform: none;
+  }
+
+  .hover\:scale-105:hover {
+    transform: scale(1.02);
+  }
+}

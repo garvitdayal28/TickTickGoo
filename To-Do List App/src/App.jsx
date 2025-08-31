@@ -1,14 +1,16 @@
-import Body from "./components/Body"
-import { AuthProvider } from "./components/AuthContext"
+import Body from "./components/Body";
+import { AuthProvider } from "./components/AuthContext";
+import AndroidKeyboardHandler from "./components/AndroidKeyboardHandler";
 
-function App() {  
+function App() {
   return (
     <AuthProvider>
       <div>
-        <Body/>
+        <AndroidKeyboardHandler />
+        <Body />
       </div>
     </AuthProvider>
   );
 }
 
-export default App
+export default App;

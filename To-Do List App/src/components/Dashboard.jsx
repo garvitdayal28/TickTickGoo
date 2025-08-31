@@ -156,15 +156,15 @@ const Dashboard = () => {
     const isUpdating = updatingTasks.has(task.id);
 
     return (
-      <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 mb-3 hover:shadow-md transition-all duration-200 hover:border-blue-200">
-        <div className="flex items-start space-x-4">
-          <div className="relative group flex-shrink-0 mt-0.5">
+      <div className="flex items-center justify-between p-3 sm:p-4 bg-white rounded-lg border border-gray-200 mb-3 hover:shadow-md transition-all duration-200 hover:border-blue-200 touch-manipulation">
+        <div className="flex items-start space-x-3 sm:space-x-4 flex-1 min-w-0">
+          <div className="relative group flex-shrink-0 mt-1">
             {isUpdating ? (
-              <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-6 h-6 sm:w-5 sm:h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
             ) : (
               <button
                 onClick={() => handleStatusChange(task.id, task.status)}
-                className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200 cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ${
+                className={`w-6 h-6 sm:w-5 sm:h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200 cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 touch-manipulation ${
                   task.status === "completed"
                     ? "bg-green-500 border-green-500 text-white"
                     : task.status === "ongoing"
@@ -174,7 +174,7 @@ const Dashboard = () => {
               >
                 {task.status === "completed" && (
                   <svg
-                    className="w-3 h-3"
+                    className="w-3 h-3 sm:w-3 sm:h-3"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -187,7 +187,7 @@ const Dashboard = () => {
                 )}
                 {task.status === "ongoing" && (
                   <svg
-                    className="w-3 h-3"
+                    className="w-3 h-3 sm:w-3 sm:h-3"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -200,38 +200,41 @@ const Dashboard = () => {
                 )}
               </button>
             )}
+            {/* Hide tooltip on mobile for better touch experience */}
             {!isUpdating && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10 shadow-lg">
+              <div className="hidden sm:block absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10 shadow-lg">
                 {getNextStatusText(task.status)}
                 <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
               </div>
             )}
           </div>
-          <div className="flex-1 min-w-0 flex items-center space-x-3">
-            <span
-              className={`font-medium text-base leading-relaxed ${
-                task.status === "completed"
-                  ? "line-through text-gray-500"
-                  : "text-gray-800"
-              }`}
-            >
-              {task.title}
-            </span>
-            {task.status === "completed" && task.completed_at && (
-              <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full flex-shrink-0">
-                ✓ Completed
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
+              <span
+                className={`font-medium text-sm sm:text-base leading-relaxed break-words ${
+                  task.status === "completed"
+                    ? "line-through text-gray-500"
+                    : "text-gray-800"
+                }`}
+              >
+                {task.title}
               </span>
-            )}
+              {task.status === "completed" && task.completed_at && (
+                <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full flex-shrink-0 mt-1 sm:mt-0 self-start">
+                  ✓ Completed
+                </span>
+              )}
+            </div>
           </div>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center ml-2">
           <div className="relative group">
             <button
               onClick={() => deleteTask(task.id)}
-              className="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-50"
+              className="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-50 touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <svg
-                className="w-4 h-4"
+                className="w-5 h-5 sm:w-4 sm:h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -244,7 +247,8 @@ const Dashboard = () => {
                 />
               </svg>
             </button>
-            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10 shadow-lg">
+            {/* Hide tooltip on mobile */}
+            <div className="hidden sm:block absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10 shadow-lg">
               Delete task
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
             </div>
@@ -255,20 +259,22 @@ const Dashboard = () => {
   };
 
   const TaskSection = ({ title, tasks, icon, color }) => (
-    <div className="mb-8">
-      <h3 className={`text-xl font-bold mb-4 flex items-center ${color}`}>
-        {icon && <span className="mr-3">{icon}</span>}
+    <div className="mb-6 sm:mb-8">
+      <h3
+        className={`text-lg sm:text-xl font-bold mb-3 sm:mb-4 flex items-center ${color}`}
+      >
+        {icon && <span className="mr-2 sm:mr-3">{icon}</span>}
         {title}
-        <span className="ml-3 text-sm bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+        <span className="ml-2 sm:ml-3 text-xs sm:text-sm bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
           {tasks.length}
         </span>
       </h3>
       <div className="space-y-2">
         {tasks.length === 0 ? (
-          <div className="text-center py-4 text-gray-400 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-            <div className="flex items-center justify-center space-x-2">
+          <div className="text-center py-6 sm:py-4 text-gray-400 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-2">
               <svg
-                className="w-5 h-5 text-gray-300"
+                className="w-6 h-6 sm:w-5 sm:h-5 text-gray-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -358,15 +364,15 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Enhanced Header */}
-      <div className=" shadow-lg border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
-        <div className="max-w-4xl mx-auto px-6 py-4">
+    <div className="min-h-screen min-h-screen-dynamic bg-gray-50 keyboard-adjust">
+      {/* Enhanced Header - Android Responsive */}
+      <div className="shadow-lg border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95 safe-area-top">
+        <div className="max-w-4xl mx-auto px-3 sm:px-6 py-3 sm:py-4 safe-area-left safe-area-right">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
                 <svg
-                  className="w-7 h-7 text-white"
+                  className="w-5 h-5 sm:w-7 sm:h-7 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -380,22 +386,22 @@ const Dashboard = () => {
                 </svg>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-800">
+                <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
                   Tick Tick Goo
                 </h1>
-                <p className="text-sm text-gray-500">
+                <p className="text-xs sm:text-sm text-gray-500 hidden xs:block">
                   Organize your tasks efficiently
                 </p>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
                   <span className="text-white text-sm font-medium">
                     {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
                   </span>
                 </div>
-                <div className="hidden sm:block">
+                <div className="hidden md:block">
                   <p className="text-sm font-medium text-gray-700">
                     {user?.name || "User"}
                   </p>
@@ -404,7 +410,7 @@ const Dashboard = () => {
               </div>
               <button
                 onClick={handleLogout}
-                className="flex items-center space-x-1 px-3 py-1.5 text-sm font-medium text-red-600 hover:text-white hover:bg-red-500 rounded-lg transition-all duration-200 transform hover:scale-105"
+                className="flex items-center space-x-1 px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium text-red-600 hover:text-white hover:bg-red-500 rounded-lg transition-all duration-200 transform hover:scale-105 min-h-touch min-w-touch touch-manipulation"
               >
                 <svg
                   className="w-4 h-4"
@@ -419,34 +425,38 @@ const Dashboard = () => {
                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                   />
                 </svg>
-                <span>Logout</span>
+                <span className="hidden sm:inline">Logout</span>
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        {/* Welcome Section */}
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl p-8 mb-8 text-white shadow-xl">
-          <div className="flex items-center space-x-4">
-            <WaveIcon />
+      {/* Main Content - Android Responsive */}
+      <div className="max-w-4xl mx-auto px-3 sm:px-6 py-4 sm:py-8 safe-area-left safe-area-right safe-area-bottom">
+        {/* Welcome Section - Mobile Responsive */}
+        <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl sm:rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8 text-white shadow-xl">
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <div className="hidden sm:block">
+              <WaveIcon />
+            </div>
             <div>
-              <h2 className="text-3xl font-bold mb-1">
+              <h2 className="text-xl sm:text-3xl font-bold mb-1">
                 Welcome back, {user?.name || "User"}!
               </h2>
-              <p className="text-blue-100">Ready to tackle your tasks today?</p>
+              <p className="text-blue-100 text-sm sm:text-base">
+                Ready to tackle your tasks today?
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Add Task Section */}
-        <div className="bg-white rounded-2xl p-6 mb-8 shadow-lg border border-gray-100">
+        {/* Add Task Section - Mobile Responsive */}
+        <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 shadow-lg border border-gray-100">
           {error && (
-            <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center space-x-2">
+            <div className="mb-4 p-3 sm:p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-start space-x-2">
               <svg
-                className="w-5 h-5"
+                className="w-5 h-5 flex-shrink-0 mt-0.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -458,23 +468,26 @@ const Dashboard = () => {
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>{error}</span>
+              <span className="text-sm sm:text-base">{error}</span>
             </div>
           )}
 
-          <form onSubmit={addNewTask} className="flex space-x-3">
+          <form
+            onSubmit={addNewTask}
+            className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3"
+          >
             <input
               type="text"
               value={newTask}
               onChange={handleInputChange}
               placeholder="Add a new task..."
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-android-base android-sm:text-base"
               disabled={loading}
             />
             <button
               type="submit"
               disabled={loading}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 font-medium flex items-center space-x-2 shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 sm:px-6 py-3 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 font-medium flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 min-h-touch touch-manipulation"
             >
               {loading ? (
                 <>

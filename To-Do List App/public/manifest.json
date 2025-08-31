@@ -1,0 +1,21 @@
+{
+  "name": "Tick Tick Goo - Task Manager",
+  "short_name": "Tick Tick Goo",
+  "description": "Organize your tasks efficiently with Tick Tick Goo",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "en",
+  "dir": "ltr"
+}
